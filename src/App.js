@@ -29,7 +29,8 @@ class App extends React.Component {
     counterColor: `rgba(255, 120, 0, 0.5)`,
     changeColorThreshold: 5,
     underThresholdColor: "red",
-    overThresholdColor: "blue"
+    overThresholdColor: "blue",
+    listItems: Array(3).fill(0).map((x, idx) => Math.random())
   }
 
   nextMovie() {
@@ -79,12 +80,16 @@ class App extends React.Component {
     const state = this.state;
     const theColor = (state.clickedTimes - 1 > state.changeColorThreshold) ? state.underThresholdColor : state.overThresholdColor;
 
-    if (state.clickedTimes - 1 < 0)  return
+    if (state.clickedTimes - 1 < 0) return
     this.setState({
       ...this.state,
       clickedTimes: state.clickedTimes - 1,
       counterColor: theColor
     })
+  }
+
+  clickListItem(item) {
+    console.log(item)
   }
 
   render() {
@@ -106,23 +111,36 @@ class App extends React.Component {
         )
       })
 
+    debugger
     return (
       <React.Fragment>
+        <ul>
+          {this.state.listItems.map((item) => <li onClick={() => this.clickListItem(item)}>{item}</li>)}
+        </ul>
+
+
         <h1>Total movies {this.state.movies.length}</h1>
-        <h3 style={{color: this.state.counterColor}}>Counter {this.state.clickedTimes}</h3>
+        <h3 style={{ color: this.state.counterColor }}>Counter {this.state.clickedTimes}</h3>
 
         {
-          (this.state.clickedTimes > this.state.changeColorThreshold) ? 
-            <div>The clicked times is high</div> 
-            : 
-            <div>The clicked times is low</div> 
+          (this.state.clickedTimes > this.state.changeColorThreshold) ?
+            <div>The clicked times is high</div>
+            :
+            <div>The clicked times is low</div>
+        }
+
+        {
+          (this.state.clickedTimes > this.state.changeColorThreshold) && <div>The clicked times is high</div>
+        }
+
+        {
+          (this.state.clickedTimes <= this.state.changeColorThreshold) && <div>The clicked times is low</div>
         }
 
         <button onClick={() => this.increaseCounter()}>Increase counter</button>
         <button onClick={() => this.decreaseCounter()}>Decrease counter</button>
         <button onClick={() => this.addNewMovie()}>Add new movie</button>
         {mappedMovies}
-
       </React.Fragment>
     )
   }
