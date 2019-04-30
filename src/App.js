@@ -4,34 +4,47 @@ import './App.css';
 
 class App extends React.Component {
   state = {
-    clickTimes : 0
+    movies: [
+      {
+        name: "Batman",
+        year: 2015,
+        style: "action"
+      },
+      {
+        name: "The name of the Rose",
+        year: 1986,
+        style: "thriller"
+      },
+      {
+        name: "Shrek",
+        year: 2005,
+        style: "3d"
+      }
+    ],
+    currentMovie: 0
   }
 
-  // constructor () {
-  //   super();
+  nextMovie() {
+    if (this.state.currentMovie + 1 === this.state.movies.length) return;
 
-  //   this.state = {
-  //     clickTimes : 0
-  //   }
-  // }
-
-  increaseCounter(param) {
     this.setState({
-      clickTimes : this.state.clickTimes + 1
+      //this clones previous state
+      ...this.state,
+      currentMovie: this.state.currentMovie + 1
     })
   }
 
   render() {
     return (
       <div>
-        {this.state.clickTimes}
-        <h1>Hola ironhackers! {this.state.clickTimes}</h1>{this.state.clickTimes}
-        {/* <button onClick={this.increaseCounter.bind(this)}>click me to increase counter 1!</button> */}
-        <button onClick={() => this.increaseCounter(999999)}>click me to increase counter!</button>
-        {this.state.clickTimes}
-        xxxx
-        {this.state.clickTimes}
+        <div>
+          <p>Name: {this.state.movies[this.state.currentMovie].name}</p>
+          <p>Year: {this.state.movies[this.state.currentMovie].year}</p>
+          <p>Style: {this.state.movies[this.state.currentMovie].style}</p>
         </div>
+
+        <button onClick={()=>this.nextMovie()}>See next movie</button>
+      </div>
     )
   }
 }
