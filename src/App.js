@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Movie from './Movie';
 
 class App extends React.Component {
   state = {
@@ -35,16 +36,19 @@ class App extends React.Component {
   }
 
   render() {
+    const currentMovie = this.state.currentMovie
+    const movies = this.state.movies
+
     return (
-      <div>
-        <div>
-          <p>Name: {this.state.movies[this.state.currentMovie].name}</p>
-          <p>Year: {this.state.movies[this.state.currentMovie].year}</p>
-          <p>Style: {this.state.movies[this.state.currentMovie].style}</p>
-        </div>
+      <React.Fragment>
+        <Movie 
+          name={movies[currentMovie].name} 
+          year={movies[currentMovie].year}
+          style={movies[currentMovie].style}>
+        </Movie>
 
         <button onClick={()=>this.nextMovie()}>See next movie</button>
-      </div>
+      </React.Fragment>
     )
   }
 }
