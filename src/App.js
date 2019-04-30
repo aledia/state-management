@@ -7,16 +7,19 @@ class App extends React.Component {
   state = {
     movies: [
       {
+        _id: "abcc1234",
         name: "Batman",
         year: 2015,
         style: "action"
       },
       {
+        _id: "abcc1235",
         name: "The name of the Rose",
         year: 1986,
         style: "thriller"
       },
       {
+        _id: "abcc1236",
         name: "Shrek",
         year: 2005,
         style: "3d"
@@ -35,19 +38,50 @@ class App extends React.Component {
     })
   }
 
+  deleteMovie(movieId) {
+    this.setState({
+      ...this.state,
+      movies: this.state.movies.filter(movie => movie._id !== movieId)
+    })
+  }
+
+  addNewMovie() {
+    let allTheMovies = [...this.state.movies]
+    allTheMovies.push({
+      _id: Math.round(Math.random() * 10000000),
+      name: "El gato con botas",
+      year: 2017,
+      style: "3d very fun"
+    })
+
+    this.setState({
+      ...this.state,
+      movies: allTheMovies
+    })
+  }
+
   render() {
-    const currentMovie = this.state.currentMovie
-    const movies = this.state.movies
+    const mappedMovies =
+      this.state.movies.map(movie => {
+        return (
+          <React.Fragment key={movie._id}>
+            <Movie
+              key={movie._id}
+              name={movie.name}
+              year={movie.year}
+              style={movie.style}>
+            </Movie>
+            <button onClick={() => this.deleteMovie(movie._id)}>Delete this movie</button>
+          </React.Fragment>
+        )
+      })
 
     return (
       <React.Fragment>
-        <Movie 
-          name={movies[currentMovie].name} 
-          year={movies[currentMovie].year}
-          style={movies[currentMovie].style}>
-        </Movie>
+        <h1>Total movies {this.state.movies.length}</h1>
+        <button onClick={() => this.addNewMovie()}>Add new movie</button>
+        {mappedMovies}
 
-        <button onClick={()=>this.nextMovie()}>See next movie</button>
       </React.Fragment>
     )
   }
